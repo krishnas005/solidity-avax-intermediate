@@ -1,4 +1,4 @@
-# SarahToken - ERC20 Token Project
+# ERC20 Token Project
 
 Token is an ERC20 token smart contract developed using Solidity. This project allows you to deploy your own ERC20 token on the Ethereum blockchain and interact with it using functions like minting, burning, and transferring tokens.
 
