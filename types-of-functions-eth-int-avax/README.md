@@ -20,3 +20,63 @@ To use the MyToken contract, follow these steps:
 1. Deploy the `MyToken.sol` contract on the Ethereum blockchain using a Solidity compiler like Remix or Hardhat.
 2. Interact with the deployed contract using functions like `mint`, `burn`, and `transfer` to manage tokens.
 
+## Code Explanation 
+
+Here is the line by line code explanation:
+
+```
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+// Import the OpenZeppelin ERC20 token contract
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract Token is ERC20 {
+
+    // Define the owner of the contract
+    address public owner;
+
+    // Constructor function to initialize the contract
+    constructor() ERC20("Krishna Token", "KS"){        
+        // Set the owner of the contract to the address that deployed it
+        owner = msg.sender;
+    }
+
+    // Modifier to ensure that only the owner can call certain functions
+    modifier onlyOwner() {
+        // Check if the caller is the owner
+        require(msg.sender == owner, "Only the owner can call this function!");
+        // Continue with the function call
+        _;
+    }
+
+    // Function to mint a specified amount of tokens
+    function mint(uint256 _amount) public onlyOwner {
+        // Mint the specified amount of tokens to the owner
+        _mint(owner, _amount);
+    }
+
+    // Function to burn a specified amount of tokens
+    function burn(uint256 _amount) public {
+        // Check if the owner has sufficient balance to burn the tokens
+        require(balanceOf(owner) >= _amount, "Insufficient balance");
+        // Burn the specified amount of tokens
+        _burn(owner, _amount);
+    }
+
+    // Function to transfer tokens to another address
+    function transfer(address _recipient, uint256 _amount) public override returns (bool) {
+        // Check if the owner is not transferring to themselves
+        require(owner != _recipient,"You cannot transfer to yourself!");
+        // Check if the owner has sufficient balance to transfer the tokens
+        require(balanceOf(owner) >= _amount, " Amount to transfer is greater than balance");
+        // Transfer the tokens to the specified recipient
+        _transfer(_msgSender(), _recipient, _amount);
+        // Return true to indicate successful transfer
+        return true;
+    }
+}
+
+```
+   
+
